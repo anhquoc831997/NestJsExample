@@ -9,6 +9,7 @@ import {
 import { UserDto } from 'src/user.dto';
 import { UserService } from './user.service';
 import { ModuleRef } from '@nestjs/core';
+import { plainToInstance } from 'class-transformer';
 
 @Controller(`users`)
 export class UserController {
@@ -20,7 +21,7 @@ export class UserController {
     // });
     // console.log(userReal);
     const userService = this.moduleRef.get(UserService);
-    return userService.createUser(user);
+    return plainToInstance(UserDto, userService.createUser(user));
   }
   @Get(':id')
   getUserById(@Param('id', ParseIntPipe) id: number) {
