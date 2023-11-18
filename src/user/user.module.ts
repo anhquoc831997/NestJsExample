@@ -1,26 +1,22 @@
 import { Module } from '@nestjs/common';
 import { UserController } from './user.controller';
 import { UserService } from './user.service';
-
-export interface StoreConfig {
-  dir: string;
-  path: string;
-}
-const configFacebook = {
-  appId: 'facebook001',
-  appSecret: 'facebook001',
-};
+import { LOGGER_KEY, loggerFacetory } from 'src/logger/logger.service';
+import { StoreModule } from 'src/store/store.module';
 
 @Module({
+  imports: [
+    StoreModule.register({
+      dirname: 'store',
+      filename: 'user.json',
+    }),
+  ],
   controllers: [UserController],
   providers: [
     UserService,
     {
-      provide: 'STORE_CONFIG',
-      useValue: {
-        dir: 'store',
-        path: 'user',
-      } as StoreConfig,
+      provide: LOGGER_KEY,
+      useFactory: loggerFacetory,
     },
   ],
 })
