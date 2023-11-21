@@ -7,12 +7,12 @@ import { UserDto } from 'src/user.dto';
 export class UserService {
   constructor(
     @Inject('LOGGER_KEY') private LoggerService: LoggerService,
-    private storeService: StoreService,
+    @Inject('STORE_SERVICEuser.json') private storeService: StoreService,
   ) {}
 
   createUser(user: UserDto): UserDto {
     this.LoggerService.log();
-    this.storeService.save(user);
+    this.storeService.save(this.storeService);
     user.id = 3;
     user.createdAt = new Date();
     user.updatedAt = new Date();
